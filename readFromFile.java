@@ -45,7 +45,7 @@ public class readFromFile {
     // Get numbers (percentages) from a row
     private static List<Double> getNumbers(String[] row) {
         List<Double> numbers = new ArrayList<>();
-        for (int i = 4; i < row.length; i += 2) {
+        for (int i = 4; i < row.length; i++) {
             try {
                 String clean = row[i].replace("%", "").replace(",", "").trim();
                 double val = Double.parseDouble(clean);
