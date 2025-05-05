@@ -14,14 +14,6 @@ public class readFromFile {
             List<String[]> data = new ArrayList<>();
             String delimiter = ",";
 
-            // Read header line to figure out delimiter
-            if ((line = br.readLine()) != null) {
-                if (line.contains(";")) {
-                    delimiter = ";";
-                }
-                data.add(line.split(delimiter));
-            }
-
             // Read rest of the lines
             while ((line = br.readLine()) != null) {
                 data.add(line.split(delimiter));
