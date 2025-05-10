@@ -90,7 +90,7 @@ public class readFromFile {
                 // Convert the cleaned string to a double
                 double val = Double.parseDouble(clean);
                 
-                if (val > 100) {
+                if (val > 100 || val == (int) val) {
                 	continue; // Skip anything over 100
                 }
                 // Add the number to the list
