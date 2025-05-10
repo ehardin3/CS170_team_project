@@ -21,13 +21,13 @@ public class readFromFile {
                 data.add(line.split(delimiter));
             }
             
-            if (data.size() > 4) {
-                // Row 0 assumed to contain the semester names
+            if (data.size() > 6) {
+                // Row 0 contains the semester names
                 List<String> semesters = getStrings(data.get(0));
-                // Row 3 (index 3) contains grade A percentages
+                // Row 3 contains grade A percentages
                 List<Double> gradeAList = getNumbers(data.get(3));
-                // Row 4 (index 4) contains grade B percentages
-                List<Double> gradeBList = getNumbers(data.get(4));
+                // Row 4 contains grade B percentages
+                List<Double> gradeBList = getNumbers(data.get(6));
             } 
                         
             // Checks if there are at least 4 rows and gets data from the 4th row (index 3)
@@ -64,8 +64,8 @@ public class readFromFile {
 	private static List<Double> getNumbers(String[] row) {
         List<Double> numbers = new ArrayList<>(); // List to store the numbers
 
-        // Start from the 5th column (index 4) and go through the rest of the row
-        for (int i = 4; i < row.length; i++) {
+        // Start from the 7th column (index 6) and go through the rest of the row
+        for (int i = 6; i < row.length; i++) {
             try {
                 // Remove % signs, commas, and extra spaces from the value
                 String clean = row[i].replace("%", "").replace(",", "").trim();
