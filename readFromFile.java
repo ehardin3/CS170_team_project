@@ -84,23 +84,31 @@ public class readFromFile {
         // Start from the 5th column (index 5) and go through the rest of the row
         for (int i = 4; i < row.length; i++) {
             try {
-                // Remove % signs, commas, and extra spaces from the value
-                String clean = row[i].replace("%", "").replace(",", "").trim();
+                // Remove commas and extra spaces
+                String clean = row[i].replace(",", "").trim();
 
-                // Convert the cleaned string to a double
-                double val = Double.parseDouble(clean);
-                
-                if (val > 100 || val == (int) val) {
-                	continue; // Skip anything over 100
+                // If the value has a '%' sign, treat it as a percentage
+                if (clean.contains("%")) {
+                    // Remove the % sign and parse the number
+                    clean = clean.replace("%", "").trim();
+                    
+                    // Convert the cleaned string to a double
+                    double val = Double.parseDouble(clean);
+                    
+                    // Skip values greater than 100 (percentage can't exceed 100)
+                    if (val > 100) {
+                        continue;
+                    }
+
+                    // Add the percentage value to the list
+                    numbers.add(val);
                 }
-                // Add the number to the list
-                numbers.add(val);
             } catch (Exception e) {
                 // If the value can't be converted to a number, just skip it
             }
         }
 
-        // Return the list of numbers
+        // Return the list of numbers (percentages)
         return numbers;
     }
 }
