@@ -8,7 +8,7 @@ public class readFromFile {
     public static Map<String, List<Double>> getGrades(String filePath) {
         // Map to store grades for A and B as lists of numbers
         Map<String, List<Double>> grades = new HashMap<>();
-	List<String> semesters = new ArrayList<>();
+        List<String> semesters = new ArrayList<>();
         List<Double> gradeAList = new ArrayList<>();
         List<Double> gradeBList = new ArrayList<>();
 
@@ -33,7 +33,20 @@ public class readFromFile {
                 // Row 4 contains grade B percentages
                 gradeBList = getNumbers(data.get(6));
             } 
-                        
+            
+            for (String semester : semesters) {
+                System.out.println(semester);
+            }
+            
+            for (Double gradeA : gradeAList) {
+            	System.out.println("grade A");
+                System.out.println(gradeA);
+            }
+            
+            for (Double gradeB : gradeBList) {
+            	System.out.println("grade D");
+                System.out.println(gradeB);
+            }
             // Checks if there are at least 4 rows and gets data from the 4th row (index 3)
           /*  if (data.size() > 3) {
                 // Get the values from the 4th row and store them under key "A" using the helper function
@@ -59,7 +72,7 @@ public class readFromFile {
     private static List<String> getStrings(String[] row) {
         List<String> strings = new ArrayList<>();
         // Start at column 3(skip the commas) and go though grabbing the strings
-        for (int i = 2; i < row.length; i++) {
+        for (int i = 2; i < row.length; i += 2) {
             strings.add(row[i].trim());
         }
         return strings;
@@ -68,15 +81,18 @@ public class readFromFile {
 	private static List<Double> getNumbers(String[] row) {
         List<Double> numbers = new ArrayList<>(); // List to store the numbers
 
-        // Start from the 7th column (index 6) and go through the rest of the row
-        for (int i = 6; i < row.length; i++) {
+        // Start from the 5th column (index 5) and go through the rest of the row
+        for (int i = 4; i < row.length; i++) {
             try {
                 // Remove % signs, commas, and extra spaces from the value
                 String clean = row[i].replace("%", "").replace(",", "").trim();
 
                 // Convert the cleaned string to a double
                 double val = Double.parseDouble(clean);
-
+                
+                if (val > 100) {
+                	continue; // Skip anything over 100
+                }
                 // Add the number to the list
                 numbers.add(val);
             } catch (Exception e) {
