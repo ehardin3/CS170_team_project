@@ -5,14 +5,13 @@ import java.util.*;
 
 public class readFromFile {
 
-    public static Map<String, List<Double>> getGrades(String filePath) {
+    public static Map<String, Map<String, Double>> getGrades(String filePath) {
         // Map to store grades for A and B as lists of numbers
         Map<String, List<Double>> grades = new HashMap<>();
         List<String> semesters = new ArrayList<>();
         List<Double> gradeAList = new ArrayList<>();
-        List<Double> gradeBList = new ArrayList<>();
-
-
+        List<Double> gradeDList = new ArrayList<>();
+        
         try {
             BufferedReader br = new BufferedReader(new FileReader(filePath)); // Opens the file to read using BufferedReader
             String line; // Stores each line
@@ -30,25 +29,12 @@ public class readFromFile {
                 semesters = getStrings(data.get(0));
                 // Row 3 contains grade A percentages
                 gradeAList = getNumbers(data.get(3));
-                // Row 4 contains grade B percentages
-                gradeBList = getNumbers(data.get(6));
+                // Row 4 contains grade D percentages
+                gradeDList = getNumbers(data.get(6));
             } 
             
-            for (String semester : semesters) {
-                System.out.println(semester);
-            }
-            
-            for (Double gradeA : gradeAList) {
-            	System.out.println("grade A");
-                System.out.println(gradeA);
-            }
-            
-            for (Double gradeB : gradeBList) {
-            	System.out.println("grade D");
-                System.out.println(gradeB);
-            }
             // Checks if there are at least 4 rows and gets data from the 4th row (index 3)
-          /*  if (data.size() > 3) {
+            if (data.size() > 3) {
                 // Get the values from the 4th row and store them under key "A" using the helper function
                 grades.put("A", getNumbers(data.get(3)));
             }
@@ -56,16 +42,31 @@ public class readFromFile {
             // Checks if there are at least 5 rows and gets data from the 5th row (index 4)
             if (data.size() > 4) {
                 // Get the values from the 5th row and store them under key "B" using the helper function
-                grades.put("B", getNumbers(data.get(4)));
-            } */
+                grades.put("D", getNumbers(data.get(4)));
+            } 
 
         } catch (IOException e) {
             // If there's an error while reading the file, print a message
             System.out.println("Error reading file.");
         }
-
+        //Put everything into a map
+        //Make the outer map
+        Map<String, Map<String, Double>> data = new TreeMap<>();
+        //For each element in the semesters array
+        for (int i = 0; i < semesters.size(); i++)
+        {
+            //make the inner map HashMap<String, Double> innerMap
+        	HashMap<String, Double> innerMap = new HashMap<>();
+            //innerMap.put("A", gradeA[i])
+        	innerMap.put("A", gradeAList.get(i));
+            //innerMap.put("D", gradeD[i++])
+        	innerMap.put("D", gradeDList.get(i));
+            //data.put(element, innermap)
+        	data.put(semesters.get(i), innerMap);
+        }
+        
         // Return the map that contains the grades
-        return null; 
+        return data; 
         
     }
 
@@ -78,7 +79,7 @@ public class readFromFile {
         return strings;
     }
 
-	private static List<Double> getNumbers(String[] row) {
+    private static List<Double> getNumbers(String[] row) {
         List<Double> numbers = new ArrayList<>(); // List to store the numbers
 
         // Start from the 5th column (index 5) and go through the rest of the row
@@ -94,11 +95,6 @@ public class readFromFile {
                     
                     // Convert the cleaned string to a double
                     double val = Double.parseDouble(clean);
-                    
-                    // Skip values greater than 100 (percentage can't exceed 100)
-                    if (val > 100) {
-                        continue;
-                    }
 
                     // Add the percentage value to the list
                     numbers.add(val);
