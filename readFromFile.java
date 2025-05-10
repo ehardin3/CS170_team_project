@@ -8,6 +8,10 @@ public class readFromFile {
     public static Map<String, List<Double>> getGrades(String filePath) {
         // Map to store grades for A and B as lists of numbers
         Map<String, List<Double>> grades = new HashMap<>();
+	List<String> semesters = new ArrayList<>();
+        List<Double> gradeAList = new ArrayList<>();
+        List<Double> gradeBList = new ArrayList<>();
+
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(filePath)); // Opens the file to read using BufferedReader
@@ -23,11 +27,11 @@ public class readFromFile {
             
             if (data.size() > 6) {
                 // Row 0 contains the semester names
-                List<String> semesters = getStrings(data.get(0));
+                semesters = getStrings(data.get(0));
                 // Row 3 contains grade A percentages
-                List<Double> gradeAList = getNumbers(data.get(3));
+                gradeAList = getNumbers(data.get(3));
                 // Row 4 contains grade B percentages
-                List<Double> gradeBList = getNumbers(data.get(6));
+                gradeBList = getNumbers(data.get(6));
             } 
                         
             // Checks if there are at least 4 rows and gets data from the 4th row (index 3)
