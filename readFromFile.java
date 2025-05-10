@@ -6,46 +6,62 @@ import java.util.*;
 public class readFromFile {
 
     public static Map<String, List<Double>> getGrades(String filePath) {
+        // Map to store grades for A and B as lists of numbers
         Map<String, List<Double>> grades = new HashMap<>();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(filePath));
-            String line;
-            List<String[]> data = new ArrayList<>();
-            String delimiter = ",";
+            BufferedReader br = new BufferedReader(new FileReader(filePath)); // Opens the file to read using BufferedReader
+            String line; // Stores each line
+            List<String[]> data = new ArrayList<>(); // List to hold each row split into columns
+            String delimiter = ","; // Set delimiter to a comma so we know where to spilt the data
 
-            // Read rest of the lines
+            // Reads the file line by line
             while ((line = br.readLine()) != null) {
+                // Each line is split into columns using the delimiter and added to the data list
                 data.add(line.split(delimiter));
             }
 
-            // Get Grade A (row 4) and Grade B (row 5)
+            // Checks if there are at least 4 rows and gets data from the 4th row (index 3)
             if (data.size() > 3) {
+                // Get the values from the 4th row and store them under key "A" using the helper function
                 grades.put("A", getNumbers(data.get(3)));
             }
+
+            // Checks if there are at least 5 rows and gets data from the 5th row (index 4)
             if (data.size() > 4) {
+                // Get the values from the 5th row and store them under key "B" using the helper function
                 grades.put("B", getNumbers(data.get(4)));
             }
 
         } catch (IOException e) {
+            // If there's an error while reading the file, print a message
             System.out.println("Error reading file.");
         }
 
+        // Return the map that contains the grades
         return grades;
     }
 
-    // Get numbers (percentages) from a row
     private static List<Double> getNumbers(String[] row) {
-        List<Double> numbers = new ArrayList<>();
+        List<Double> numbers = new ArrayList<>(); // List to store the numbers
+
+        // Start from the 5th column (index 4) and go through the rest of the row
         for (int i = 4; i < row.length; i++) {
             try {
+                // Remove % signs, commas, and extra spaces from the value
                 String clean = row[i].replace("%", "").replace(",", "").trim();
+
+                // Convert the cleaned string to a double
                 double val = Double.parseDouble(clean);
+
+                // Add the number to the list
                 numbers.add(val);
             } catch (Exception e) {
-                // skip bad data
+                // If the value can't be converted to a number, just skip it
             }
         }
+
+        // Return the list of numbers
         return numbers;
     }
 }
