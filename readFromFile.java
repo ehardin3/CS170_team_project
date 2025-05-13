@@ -6,7 +6,7 @@ import java.util.*;
 public class readFromFile {
 
     public static Map<String, Map<String, Double>> getGrades(String filePath) {
-        // Map to store grades for A and B as lists of numbers
+        // Map to store grades for A and D as lists of numbers
         Map<String, List<Double>> grades = new HashMap<>();
         List<String> semesters = new ArrayList<>();
         List<Double> gradeAList = new ArrayList<>();
