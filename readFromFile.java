@@ -24,7 +24,7 @@ public class readFromFile {
                 data.add(line.split(delimiter));
             }
             
-            if (data.size() > 6) {
+            if (data.size() > 6) { // makes sure that there's enough lines
                 // Row 0 contains the semester names
                 semesters = getStrings(data.get(0));
                 // Row 3 contains grade A percentages
